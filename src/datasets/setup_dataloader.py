@@ -39,7 +39,7 @@ def make_weights_for_balanced_classes(labels):
         weights[labels.flatten() == lbl] = total_lbls / count                           
     return weights 
 
-def setup_loader(data, batch_size=None, train=False, val=False, test=False, ood=False, example=False, segment=None, modify=None):
+def setup_loader(data, batch_size=None, train=False, val=False, test=False, ood=False, example=False, finetune=False, segment=None, modify=None):
     
     if not data in ['lunar', 'speed', 'pavilion']:
         raise NotImplementedError('The {} dataset is not currently available.'.format(data))
@@ -98,5 +98,10 @@ def setup_loader(data, batch_size=None, train=False, val=False, test=False, ood=
         example_dataset = ExampleDataset('./data/{}/'.format(data))
         loader = torch.utils.data.DataLoader(example_dataset, 
                     batch_size=batch_size, shuffle=False)
+   
+    elif finetune:
+        finetune_dataset = FinetuneDataset('./data/{}/'.format(data))
+        loader = torch.utils.data.DataLoader(finetune_dataset, 
+                    batch_size=batch_size, shuffle=True)
 
     return loader

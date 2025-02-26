@@ -156,7 +156,8 @@ class LatentNearestNeighbors():
                 inputs, _, _, _ = self._mask_images(X, y)
 
             # Compute competency scores for input data 
-            outputs = self.estimator.model(inputs).detach().numpy()
+            inputs = inputs.to(self.estimator.device)
+            outputs = self.estimator.model(inputs).cpu().detach().numpy()
             scores = self.estimator.comp_scores(inputs, outputs)
             
             # Save latent representations for images with high competency

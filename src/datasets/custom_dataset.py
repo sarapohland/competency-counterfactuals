@@ -8,6 +8,7 @@ from src.counterfactual.utils import *
 
 from src.utils.segment import mask_images
 from src.analysis.modify import modify_images
+from src.explanation.utils import get_true_explanation
 
 
 class CustomDataset(Dataset):
@@ -69,7 +70,8 @@ class ExampleDataset(Dataset):
         file = os.path.join(data_dir, 'examples.npz')
         dataset = np.load(open(file, 'rb'))
         self.data = dataset['data']
-        self.labels = mod_to_int(dataset['mods'])[:,None]
+        self.labels = mod_to_int(dataset['labels'])[:,None]
+        self.mods = list(dataset['labels'])
         
     def __len__(self):
         return len(self.labels)
@@ -78,3 +80,25 @@ class ExampleDataset(Dataset):
         data = torch.from_numpy(self.data[idx,:,:,:]).float()
         labels = torch.from_numpy(self.labels[idx,:])
         return data, labels
+    
+class FinetuneDataset(Dataset):
+    def __init__(self, data_dir):
+        # Load saved data
+        file = os.path.join(data_dir, 'finetune.npz')
+        dataset = np.load(open(file, 'rb'))
+        self.data = dataset['data']
+
+        # Get appropriate explanations for data
+        self.labels = []
+        data_name = os.path.basename(os.path.normpath(data_dir))
+        for (prop, factor) in zip(dataset['props'], dataset['factors']):
+            self.labels.append(get_true_explanation(data_name, prop, factor))
+            # print(prop, factor, self.labels[-1])
+        
+    def __len__(self):
+        return len(self.labels)
+    
+    def __getitem__(self, idx):
+        data = self.data[idx,:,:,:]
+        # labels = self.labels[idx]
+        return data #, labels

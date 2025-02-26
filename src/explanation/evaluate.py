@@ -61,7 +61,10 @@ def main():
         raise NotImplementedError('The response type should either be `free` or `mc`.')
     
     img_dir = os.path.join(args.output_dir, 'images')
-    expl_dir = os.path.join(args.output_dir, 'explanations')
+    if args.finetuned:
+        expl_dir = os.path.join(args.output_dir, 'explanations_finetune')
+    else:
+        expl_dir = os.path.join(args.output_dir, 'explanations')
     for mod in eval_mods:
         # Create/load list to store labels
         img_subdir = os.path.join(img_dir, mod)
@@ -118,7 +121,10 @@ def test():
         eval_mods = [args.modification]
 
     img_dir = os.path.join(args.output_dir, 'images')
-    expl_dir = os.path.join(args.output_dir, 'explanations')
+    if args.finetuned:
+        expl_dir = os.path.join(args.output_dir, 'explanations_finetune')
+    else:
+        expl_dir = os.path.join(args.output_dir, 'explanations')
     for mod in eval_mods:
         # Load list of saved labels
         img_subdir = os.path.join(img_dir, mod)
@@ -160,8 +166,8 @@ def test():
                 labels[idx] = 1 - labels[idx]
             plt.close()
 
-        # Dump labels to file
-        np.savez(label_file, labels=labels)
+            # Dump labels to file
+            np.savez(label_file, labels=labels)
 
     
 if __name__ == "__main__":
@@ -172,6 +178,7 @@ if __name__ == "__main__":
     parser.add_argument('--output_dir', type=str, default='results/lunar/explainability/')
     parser.add_argument('--start_idx', type=int, default=0)
     parser.add_argument('--test', default=False, action='store_true')
+    parser.add_argument('--finetuned', default=False, action='store_true')
     args = parser.parse_args()
 
     test() if args.test else main()

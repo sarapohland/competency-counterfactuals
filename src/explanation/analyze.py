@@ -12,6 +12,7 @@ def main():
     parser = argparse.ArgumentParser('Parse configuration file')
     parser.add_argument('--response_type', type=str, default='free')
     parser.add_argument('--output_dir', type=str, default='results/lunar/explainability/')
+    parser.add_argument('--finetuned', default=False, action='store_true')
     args = parser.parse_args()
 
     # Create dictionary to store accuracies
@@ -19,7 +20,10 @@ def main():
     accuracies = {method: {} for method in counterfactuals}
 
     # Compute accuracies across image modifications
-    expl_dir = os.path.join(args.output_dir, 'explanations')
+    if args.finetuned:
+        expl_dir = os.path.join(args.output_dir, 'explanations_finetune')
+    else:
+        expl_dir = os.path.join(args.output_dir, 'explanations')
     for mod in mods[1:]:
         expl_subdir = os.path.join(expl_dir, mod)
         expl_subdir = os.path.join(expl_subdir, args.response_type)

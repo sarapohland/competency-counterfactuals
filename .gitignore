@@ -10,6 +10,7 @@
 *.egg-info/
 .pytest_cache/
 __pycache__
+*_cache/
 .cache/
 venv*/
 
@@ -17,11 +18,9 @@ venv*/
 data/
 models/
 results/
+llama_*
 *.p
 
 # jupyter checkpoints
 .ipynb_checkpoints
 *.ipynb
-
-# simulation
-rviz/
