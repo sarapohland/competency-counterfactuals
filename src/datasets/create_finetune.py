@@ -17,7 +17,7 @@ def main():
     parser = argparse.ArgumentParser('Parse configuration file')
     parser.add_argument('dataset', type=str)
     parser.add_argument('--decoder_dir', type=str, default='models/lunar/reconstruct/')
-    parser.add_argument('--start_idx', type=int, default=0)
+    parser.add_argument('--start_idx', type=int, default=100)
     parser.add_argument('--use_gpu', action='store_true')
     args = parser.parse_args()
 
