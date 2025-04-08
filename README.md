@@ -1,6 +1,6 @@
 # Explaining Competency with Counterfactuals
 
-This is the codebase for the paper titled "Explaining Low Perception Model Competency with High-Competency Counterfactuals," which was submitted to the 3rd World Conference on eXplainable Artificial Intelligence (xAI). This README describes how to reproduce the results achieved in this paper. 
+This is the codebase for the paper titled "Explaining Low Perception Model Competency with High-Competency Counterfactuals," which will be presented at the 3rd World Conference on eXplainable Artificial Intelligence (xAI) in July. The paper is available as a preprint on [arXiv](https://arxiv.org/abs/2504.05254). This README describes how to reproduce the results achieved in this paper. 
 
 ## 0) Set Up Codebase
 
